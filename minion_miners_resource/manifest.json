@@ -4,14 +4,17 @@
     "description": "Minion Miners Resource Pack",
     "name": "Minion Miners",
     "uuid": "4a687b0e-5407-4169-bb7c-180567b49df2",
-    "version": [0, 0, 3]
+    "version": [0, 0, 4]
   },
   "modules": [
     {
       "description": "Minion Miners Resource Pack",
       "type": "resources",
       "uuid": "fa4aaa27-be76-4c6f-b849-55ae0cc7c221",
-      "version": [0, 0, 3]
+      "version": [0, 0, 4]
     }
+  ],
+  "capabilities": [
+    "experimental_custom_ui"
   ]
 }

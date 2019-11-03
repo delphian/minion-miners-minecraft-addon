@@ -71,6 +71,9 @@ MinionMiners.Core = function(injectServer) {
         modules.push(moduleInstance);
     };
     this.initialize = function() {
+        // Setup callback for when our client script has been notified that the player has loaded into the world.
+        minecraftServer.listenForEvent("minion_miners:client_entered_world", eventData => this.onClientEnteredWorld(eventData));
+        // Call initialize on each minion miners server module.
         for (i = 0; i < modules.length; i++) {
             modules[i].initialize(this);
         }
@@ -80,6 +83,7 @@ MinionMiners.Core = function(injectServer) {
      * Called by Minecraft each tick (20 times per second).
      */
     this.update = function() {
+        // Call upate on each minion miners server module.
         if (initialized == true) {
             for (i = 0; i < modules.length; i++) {
                 modules[i].update();            
@@ -92,7 +96,11 @@ MinionMiners.Core = function(injectServer) {
     };
     this.isReady = function() {
         return updating;
-    }
+    };
+    this.onClientEnteredWorld = function(eventData) {
+        this.say("Welcome!");
+        // Do nothing for now.
+    };
 };
 
 /**

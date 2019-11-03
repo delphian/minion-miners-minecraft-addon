@@ -4,7 +4,7 @@
         "description": "Minion Miners Behavior Pack",
         "name": "Minion Miners",
         "uuid": "0cc029ff-a5e3-40f8-8e3c-9ebd513f5b8c",
-        "version": [0, 0, 7],
+        "version": [0, 0, 8],
         "min_engine_version" : [ 1, 12, 1 ]
     },
     "modules": [
@@ -12,19 +12,19 @@
             "description": "Minion Miners Behavior Pack module",
             "type": "data",
             "uuid": "f914d8c4-85ad-4f34-85bf-3245ff793170",
-            "version": [0, 0, 7]
+            "version": [0, 0, 8]
         },
         {
             "description": "Minion Miners Behavior Pack client scripts",
             "type": "client_data",
             "uuid": "266f0fce-b749-4e15-a78f-9f1f1cf3530d",
-            "version": [0, 0, 7]
+            "version": [0, 0, 8]
         }        
     ],
     "dependencies": [
         {
           "uuid": "4a687b0e-5407-4169-bb7c-180567b49df2",
-          "version": [0, 0, 3]
+          "version": [0, 0, 4]
         }
     ]    
 }

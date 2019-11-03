@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'MinecraftTen';
+    src: url(fonts/MinecraftTen.otf);
+}
+
+html {
+}
+
+body {
+    font-family: "MinecraftTen";
+}
+
+button {
+    width:100px;
+    height:100px;
+    border:1px solid #ff0000;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
