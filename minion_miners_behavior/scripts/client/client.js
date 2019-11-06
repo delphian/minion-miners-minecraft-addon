@@ -21,7 +21,8 @@ MinionMiners.Core = function(injectClient) {
         modules.push(moduleInstance);
     };
     this.initialize = function() {
-        minecraftClient.registerEventData("minion_miners:client_entered_world", {}); 
+        minecraftClient.registerEventData("minion_miners:client_entered_world", {});
+        minecraftClient.registerEventData("minion_miners:click", {});
         // Setup callback for when the player enters the world
         minecraftClient.listenForEvent("minecraft:client_entered_world", (eventData) => this.onClientEnteredWorld(eventData));
         // Setup callback for UI events from the custom screens.
@@ -58,25 +59,27 @@ MinionMiners.Core = function(injectClient) {
      * New client just connected to world.
      */
     this.onClientEnteredWorld = function(eventData) {
-        // Client has entered the world, show the starting screen.
-        let loadEventData = minecraftClient.createEventData("minecraft:load_ui");
-        loadEventData.data.path = "minion_miners.html";
-        loadEventData.data.options.always_accepts_input = true;
-        loadEventData.data.options.is_showing_menu = false;
-        loadEventData.data.options.absorbs_input = false;
-        loadEventData.data.options.should_steal_mouse = true;
-        loadEventData.data.options.render_game_behind = true;
-        loadEventData.data.options.force_render_below = true;
-        minecraftClient.broadcastEvent("minecraft:load_ui", loadEventData);
-        // Notify the server script that the player has finished loading in.
-        let clientEnteredEventData = minecraftClient.createEventData("minion_miners:client_entered_world");
-        minecraftClient.broadcastEvent("minion_miners:client_entered_world", clientEnteredEventData);        
+            // Client has entered the world, show the starting screen.
+            let loadEventData = minecraftClient.createEventData("minecraft:load_ui");
+            loadEventData.data.path = "minion_miners.html";
+            loadEventData.data.options.always_accepts_input = false;
+            loadEventData.data.options.is_showing_menu = false;
+            loadEventData.data.options.absorbs_input = false;
+            loadEventData.data.options.should_steal_mouse = true;
+            loadEventData.data.options.render_game_behind = true;
+            loadEventData.data.options.force_render_below = false;
+            loadEventData.data.options.render_only_when_topmost = true;
+            minecraftClient.broadcastEvent("minecraft:load_ui", loadEventData);
+            // Notify the server script that the player has finished loading in.
+            let clientEnteredEventData = minecraftClient.createEventData("minion_miners:client_entered_world");
+            minecraftClient.broadcastEvent("minion_miners:client_entered_world", clientEnteredEventData);        
     };
     /**
      * Message from custom UI
      */
-    this.onUIMessage = function(eventData) {
-        this.say("Got it!");
+    this.onUIMessage = function(eventDataObject) {
+        let eventData = eventDataObject.data;
+        this.say("Got it: " + eventData);
     };
 };
 

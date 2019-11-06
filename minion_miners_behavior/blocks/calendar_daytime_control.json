@@ -1,0 +1,27 @@
+{
+    "format_version": "1.12.0",
+    "minecraft:block": {
+        "description": {
+            "identifier": "minionminers:calendar_daytime_control",
+            "register_to_creative_menu": true,
+            "is_experimental": false
+        },
+        "components": {
+            "minecraft:destroy_time": {
+                "value": 0.3
+            },
+            "minecraft:friction": {
+                "value": 0.9
+            },
+            "minecraft:explosion_resistance": {
+                "value": 12
+            },
+            "minecraft:map_color": {
+                "color": "#ffffff"
+            },
+            "minecraft:loot": {
+                "table": "loot_tables/blocks/calendar_daytime_control.json"
+            }
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "format_version": [
+    1,
+    1,
+    0
+  ],
+  "minionminers:calendar_daytime_control": {
+    "textures": "calendar_daytime_control",
+    "sound": "stone"
+  }
+}

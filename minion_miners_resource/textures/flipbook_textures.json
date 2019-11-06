@@ -1,0 +1,7 @@
+[
+    {
+        "flipbook_texture": "textures/blocks/calendar_daytime_control",
+        "atlas_tile": "calendar_daytime_control",
+        "ticks_per_frame": 42
+    }
+]

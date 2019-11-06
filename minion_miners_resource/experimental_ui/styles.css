@@ -3,20 +3,23 @@
     src: url(fonts/MinecraftTen.otf);
 }
 
-html {
-}
-
 body {
     font-family: "MinecraftTen";
-}
-
-button {
-    width:100px;
-    height:100px;
-    border:1px solid #ff0000;
+    border: 1px solid #0000ff;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
 }
 
 p {
 	margin: 0;
-	padding: 0;
+    padding: 0;    
+    width:100px;
+    height:100px;
+    border:1px solid #ff0000;
+    color: #000000;
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }

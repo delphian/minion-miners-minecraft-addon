@@ -1,0 +1,1 @@
+minionminers:calendar_daytime_control.name=Calendar Daytime Control
