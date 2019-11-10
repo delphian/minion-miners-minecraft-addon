@@ -6,9 +6,16 @@ MinionMiners = {};
 // Time of day (in minecraft) class.
 MinionMiners.timeOfDay = function(realLifeMinutesInDay) {
     var config = {
-        tickIncrement: null,
+        // Real life minutes
+        rlMinutes: {
+            dayTime: null
+        },
+        // Calculated tick increment to achieve real life minutes
+        tickIncrements: {
+            dayTime: null
+        }
     };
-    // Maintain current time in discrete units.
+    // Maintain current minecraft time in discrete units.
     var time = {
         hour: 0,
         minute: 0,
@@ -40,16 +47,35 @@ MinionMiners.timeOfDay = function(realLifeMinutesInDay) {
         return this;
     };
     /**
-     * Increment the time by a single tick (1/20 of a second)
+     * Increment the minecraft time required by a single script tick (1/20 of a second)
+     * 
+     * Normally each minecraft tick (1/20th of a second) increments the minecraft daytime
+     * value by the same (1/20th of a second). However, we alter this behavior and apply
+     * a custom time increase based on how long (in real life minutes) a minecraft day
+     * has been configured to take. 
      */
     this.incrementTick = function() {
-        time.tick += config.tickIncrement;
+        time.tick += config.tickIncrements.dayTime;
         if (time.tick >= (20 * 60 * 60 * 24)) {
             time.tick = 0;
         }
         this.setTick(time.tick);
     };
-    config.tickIncrement = 24000 / (realLifeMinutesInDay * 60 * 20);
+    /**
+     * Set the number of real life minutes it takes for the minecraft sun to traverse the sky.
+     */
+    this.setMinutesInDaytime = function(minutes) {
+        config.rlMinutes.dayTime = minutes;
+        config.tickIncrements.dayTime = 24000 / (config.rlMinutes.dayTime * 60 * 20);
+    };
+    /**
+     * Retrieve the configuration, which holds timespans in real minutes and 
+     * the associated tick increment adjustments required to maintain it.
+     */
+    this.getConfig = function() {
+        return JSON.parse(JSON.stringify(config));
+    };
+    this.setMinutesInDaytime(realLifeMinutesInDay);
 };
 
 /**
@@ -71,7 +97,11 @@ MinionMiners.Core = function(injectServer) {
         modules.push(moduleInstance);
     };
     this.initialize = function() {
-        // Setup callback for when our client script has been notified that the player has loaded into the world.
+        let scriptLoggerConfig = minecraftServer.createEventData("minecraft:script_logger_config");
+        scriptLoggerConfig.data.log_errors = true;
+        scriptLoggerConfig.data.log_information = true;
+        scriptLoggerConfig.data.log_warnings = true;
+        minecraftServer.broadcastEvent("minecraft:script_logger_config", scriptLoggerConfig);
         minecraftServer.listenForEvent("minion_miners:client_entered_world", eventData => this.onClientEnteredWorld(eventData));
         // Call initialize on each minion miners server module.
         for (i = 0; i < modules.length; i++) {
@@ -127,6 +157,11 @@ MinionMiners.Calendar = function(realLifeMinutesInDay) {
     };
     this.initialize = function(injectCore) {
         mm = injectCore;
+        mm.getServer().registerEventData("minion_miners:calendar_wizard_load_ui", {});
+        mm.getServer().listenForEvent("minecraft:entity_acquired_item", (eventData) => {
+            mm.say(JSON.stringify(eventData));
+        });
+        mm.getServer().listenForEvent("minecraft:entity_use_item", (eventData) => this.monitorItemUse(eventData));
         // Disable normal daylight cycle
         mm.getServer().executeCommand("/gamerule dodaylightcycle false", () => {});
     };
@@ -143,6 +178,15 @@ MinionMiners.Calendar = function(realLifeMinutesInDay) {
         if (mm.isReady() && ready) {
             time.incrementTick();
             this.setMinecraftDaytimeTick(time.getTick());
+        }
+    };
+    /**
+     * Increment or decrement minutes of daytime or nighttime based on which item was used.
+     */
+    this.monitorItemUse = function(eventData) {
+//        mm.say(JSON.stringify(eventData));
+        if (eventData.__type__ == "event_data" && eventData.data.item_stack.item == "minion_miners:calendar_daytime_increase") {
+            this.incrementMinutesInDaytime();
         }
     };
     /**
@@ -169,35 +213,32 @@ MinionMiners.Calendar = function(realLifeMinutesInDay) {
             }
         });
     };
+    /**
+     * Set the number of real life minutes it takes for the minecraft sun to traverse the sky.
+     */
+    this.setMinutesInDaytime = function(minutes) {
+        time.setMinutesInDaytime(minutes);
+    };
+    /**
+     * Increment the number of minutes during daytime by 1.
+     */
+    this.incrementMinutesInDaytime = function() {
+        var timeConfig = time.getConfig();
+        var newDayTimeMinutes = timeConfig.rlMinutes.dayTime + 1;
+        this.setMinutesInDaytime(newDayTimeMinutes);
+        mm.say("The heavens have altered their course. " + newDayTimeMinutes + " minutes during daytime.");
+    };
     time = new MinionMiners.timeOfDay(realLifeMinutesInDay);
 };
 
 let mm = new MinionMiners.Core(aServerSystem);
-// Initialize calendar with a day cycle of 1 minute
-mm.registerModule(new MinionMiners.Calendar(1))
-
-let mmWeather = {};
-mmWeather.Data = {};
-mmWeather.Data.tickCount = 0;
-mmWeather.Data.dayRainCount = 0;
+mm.registerModule(new MinionMiners.Calendar(2))
 
 // Register script only components and listen for events
 aServerSystem.initialize = function () {
-    let weather = this.getComponent(server.level, "minecraft:weather");
-    weather.data.do_weather_cycle = false;
-    this.applyComponentChanges(server.level, weather);
-    this.listenForEvent("minecraft:weather_changed", eventData => this.onWeatherChanged(eventData));  
     mm.initialize();
 };
-
 // Update is called every tick
 aServerSystem.update = function () {
     mm.update();
-};
-
-aServerSystem.onWeatherChanged = function(eventData) {
-    let chatEvent = this.createEventData("minecraft:display_chat_event");
-    let weather = this.getComponent(server.level, "minecraft:weather");
-    chatEvent.data.message = "Detected Weather Change! " + JSON.stringify(weather);
-    this.broadcastEvent("minecraft:display_chat_event", chatEvent);
 };

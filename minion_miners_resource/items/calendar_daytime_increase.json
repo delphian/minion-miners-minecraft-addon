@@ -1,0 +1,14 @@
+{
+    "format_version": "1.10",
+    "minecraft:item": {
+        "description": {
+            "identifier": "minion_miners:calendar_daytime_increase",
+            "category": "Nature"
+        },   
+        "components": {
+            "minecraft:icon": "calendar_daytime_increase",
+            "minecraft:use_animation": "eat",
+            "minecraft:render_offsets": "apple"
+        }
+    }
+}

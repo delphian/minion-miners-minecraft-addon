@@ -3,5 +3,10 @@
         "flipbook_texture": "textures/blocks/calendar_daytime_control",
         "atlas_tile": "calendar_daytime_control",
         "ticks_per_frame": 42
+    },
+    {
+        "flipbook_texture": "textures/items/calendar_daytime_increase",
+        "atlas_tile": "calendar_daytime_increase",
+        "ticks_per_frame": 42
     }
 ]

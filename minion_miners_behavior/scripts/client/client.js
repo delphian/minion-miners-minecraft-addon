@@ -7,6 +7,7 @@ MinionMiners = {};
  * Base Minion Miners controller.
  */
 MinionMiners.Core = function(injectClient) {
+    var self = this;
     var minecraftClient = injectClient;
     var modules = [];
     var initialized = false;
@@ -20,7 +21,15 @@ MinionMiners.Core = function(injectClient) {
     this.registerModule = function(moduleInstance) {
         modules.push(moduleInstance);
     };
+    /**
+     * Called by Minecraft once during script initialization.
+     */
     this.initialize = function() {
+        let scriptLoggerConfig = minecraftClient.createEventData("minecraft:script_logger_config");
+        scriptLoggerConfig.data.log_errors = true;
+        scriptLoggerConfig.data.log_information = true;
+        scriptLoggerConfig.data.log_warnings = true;
+        minecraftClient.broadcastEvent("minecraft:script_logger_config", scriptLoggerConfig);        
         minecraftClient.registerEventData("minion_miners:client_entered_world", {});
         minecraftClient.registerEventData("minion_miners:click", {});
         // Setup callback for when the player enters the world
@@ -28,7 +37,7 @@ MinionMiners.Core = function(injectClient) {
         // Setup callback for UI events from the custom screens.
         minecraftClient.listenForEvent("minecraft:ui_event", (eventData) => this.onUIMessage(eventData));
         // Call initialize on all minion miner client modules.
-        for (i = 0; i < modules.length; i++) {
+        for (var i = 0; i < modules.length; i++) {
             if (modules[i].initialize) {
                 modules[i].initialize(this);
             }
@@ -41,7 +50,7 @@ MinionMiners.Core = function(injectClient) {
     this.update = function() {
         // Call update on all minion miner client modules.
         if (initialized == true) {
-            for (i = 0; i < modules.length; i++) {
+            for (var i = 0; i < modules.length; i++) {
                 if (modules[i].update) {
                     modules[i].update();
                 }
@@ -59,27 +68,8 @@ MinionMiners.Core = function(injectClient) {
      * New client just connected to world.
      */
     this.onClientEnteredWorld = function(eventData) {
-            // Client has entered the world, show the starting screen.
-            let loadEventData = minecraftClient.createEventData("minecraft:load_ui");
-            loadEventData.data.path = "minion_miners.html";
-            loadEventData.data.options.always_accepts_input = false;
-            loadEventData.data.options.is_showing_menu = false;
-            loadEventData.data.options.absorbs_input = false;
-            loadEventData.data.options.should_steal_mouse = true;
-            loadEventData.data.options.render_game_behind = true;
-            loadEventData.data.options.force_render_below = false;
-            loadEventData.data.options.render_only_when_topmost = true;
-            minecraftClient.broadcastEvent("minecraft:load_ui", loadEventData);
-            // Notify the server script that the player has finished loading in.
-            let clientEnteredEventData = minecraftClient.createEventData("minion_miners:client_entered_world");
-            minecraftClient.broadcastEvent("minion_miners:client_entered_world", clientEnteredEventData);        
-    };
-    /**
-     * Message from custom UI
-     */
-    this.onUIMessage = function(eventDataObject) {
-        let eventData = eventDataObject.data;
-        this.say("Got it: " + eventData);
+        let clientEnteredEventData = minecraftClient.createEventData("minion_miners:client_entered_world");
+        minecraftClient.broadcastEvent("minion_miners:client_entered_world", clientEnteredEventData);
     };
 };
 
@@ -89,10 +79,47 @@ MinionMiners.Core = function(injectClient) {
  * Controls the sun, moon, and keeping track of the yearly/monthly/daily calendar.
  */
 MinionMiners.Calendar = function() {
+    var mm = null;
+    var initialized = false;
+    var updating = false;
+    /**
+     * Called by Core once during script initialization.
+     */
+    this.initialize = function(injectMmCore) {
+        mm = injectMmCore;
+        // Setup callback for when the player enters the world
+        mm.getClient().listenForEvent("minion_miners:calendar_wizard_load_ui", (eventData) => this.onDaytimeControlLoadUi(eventData));
+        mm.getClient().listenForEvent("minecraft:hit_result_changed", (eventData) => {
+            // mm.say(JSON.stringify(eventData));
+        });
+        initialized = true;
+    };
+    /**
+     * Called by Core once per tick (20 times per second).
+     */
+    this.update = function() {
+        updating = true;
+    };
+    /**
+     * Load the daytime control ui.
+     */
+    this.onDaytimeControlLoadUi = function(eventData) {
+        mm.say("Loading calendar wizard ui...");
+        // let loadEventData = minecraftClient.createEventData("minecraft:load_ui");
+        // loadEventData.data.path = "minion_miners.html";
+        // loadEventData.data.options.always_accepts_input = false;
+        // loadEventData.data.options.is_showing_menu = false;
+        // loadEventData.data.options.absorbs_input = false;
+        // loadEventData.data.options.should_steal_mouse = true;
+        // loadEventData.data.options.render_game_behind = true;
+        // loadEventData.data.options.force_render_below = false;
+        // loadEventData.data.options.render_only_when_topmost = true;
+        // minecraftClient.broadcastEvent("minecraft:load_ui", loadEventData);
+    };
 };
 
 let mm = new MinionMiners.Core(aClientSystem);
-//mm.registerModule(new MinionMiners.Calendar())
+mm.registerModule(new MinionMiners.Calendar());
 
 // Register script only components and listen for events
 aClientSystem.initialize = function () {

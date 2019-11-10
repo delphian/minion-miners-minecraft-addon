@@ -2,13 +2,13 @@
     "format_version": "1.12.0",
     "minecraft:block": {
         "description": {
-            "identifier": "minionminers:calendar_daytime_control",
+            "identifier": "minion_miners:calendar_daytime_control",
             "register_to_creative_menu": true,
             "is_experimental": false
         },
         "components": {
             "minecraft:destroy_time": {
-                "value": 0.3
+                "value": 1.0
             },
             "minecraft:friction": {
                 "value": 0.9

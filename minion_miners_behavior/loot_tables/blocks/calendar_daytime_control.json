@@ -1,4 +1,5 @@
 {
+    "type": "block",
     "pools": [
         {
             "rolls": 1,
@@ -6,7 +7,7 @@
                 {
                     "type": "item",
                     "weight": 1,
-                    "name": "minecraft:diamond"
+                    "name": "minion_miners:calendar_daytime_control"
                 }
             ]
         }

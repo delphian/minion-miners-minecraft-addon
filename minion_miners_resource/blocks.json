@@ -4,7 +4,7 @@
     1,
     0
   ],
-  "minionminers:calendar_daytime_control": {
+  "minion_miners:calendar_daytime_control": {
     "textures": "calendar_daytime_control",
     "sound": "stone"
   }
