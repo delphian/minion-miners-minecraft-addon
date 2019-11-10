@@ -48,8 +48,8 @@
         "table": "loot_tables/entities/calendar_wizard.json"
       },
       "minecraft:health": {
-        "value": 50,
-        "max": 50
+        "value": 60,
+        "max": 60
       },
       "minecraft:movement": {
         "value": 0.1

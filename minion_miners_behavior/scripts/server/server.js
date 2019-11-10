@@ -96,6 +96,9 @@ MinionMiners.Core = function(injectServer) {
     this.registerModule = function(moduleInstance) {
         modules.push(moduleInstance);
     };
+    /**
+     * Register calendar components and listen for events. Called once from Minecraft during startup.
+     */
     this.initialize = function() {
         let scriptLoggerConfig = minecraftServer.createEventData("minecraft:script_logger_config");
         scriptLoggerConfig.data.log_errors = true;
@@ -155,18 +158,18 @@ MinionMiners.Calendar = function(realLifeMinutesInDay) {
             }
         });
     };
+    /**
+     * Register calendar components and listen for events. Called once from Core during startup.
+     */
     this.initialize = function(injectCore) {
         mm = injectCore;
         mm.getServer().registerEventData("minion_miners:calendar_wizard_load_ui", {});
-        mm.getServer().listenForEvent("minecraft:entity_acquired_item", (eventData) => {
-            mm.say(JSON.stringify(eventData));
-        });
         mm.getServer().listenForEvent("minecraft:entity_use_item", (eventData) => this.monitorItemUse(eventData));
         // Disable normal daylight cycle
         mm.getServer().executeCommand("/gamerule dodaylightcycle false", () => {});
     };
     /**
-     * Called by core each script tick (20 times per second).
+     * Called by CORE each script tick (20 times per second).
      */
     this.update = function() {
         if (mm.isReady() && ready == null) {
@@ -184,7 +187,6 @@ MinionMiners.Calendar = function(realLifeMinutesInDay) {
      * Increment or decrement minutes of daytime or nighttime based on which item was used.
      */
     this.monitorItemUse = function(eventData) {
-//        mm.say(JSON.stringify(eventData));
         if (eventData.__type__ == "event_data" && eventData.data.item_stack.item == "minion_miners:calendar_daytime_increase") {
             this.incrementMinutesInDaytime();
         }
@@ -232,7 +234,7 @@ MinionMiners.Calendar = function(realLifeMinutesInDay) {
 };
 
 let mm = new MinionMiners.Core(aServerSystem);
-mm.registerModule(new MinionMiners.Calendar(2))
+mm.registerModule(new MinionMiners.Calendar(20))
 
 // Register script only components and listen for events
 aServerSystem.initialize = function () {

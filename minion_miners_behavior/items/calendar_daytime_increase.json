@@ -9,15 +9,7 @@
             "minecraft:food": {
                 "nutrition": 4,
                 "saturation_modifier": "supernatural",
-                "can_always_eat": true,
-                "effects": [
-                    {
-                        "name": "regeneration",
-                        "chance": 1.0,
-                        "duration": 30,
-                        "amplifier": 4
-                    }
-                ]
+                "can_always_eat": true
             }
         }
     }
