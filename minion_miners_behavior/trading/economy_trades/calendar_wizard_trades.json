@@ -4,7 +4,7 @@
       "total_exp_required": 0,
       "groups": [
         {
-          "num_to_select": 1,
+          "num_to_select": 2,
           "trades": [
             {
               "wants": [
@@ -15,12 +15,27 @@
               ],
               "gives": [
                 {
-                  "item": "minion_miners:calendar_daytime_increase",
-                  "quantity": 1
+                  "item": "minion_miners:calendar_aten_token",
+                  "quantity": 10
                 }
               ],
               "trader_exp": 1,
-              "max_uses": 8,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:stick",
+                  "quantity": 1
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minion_miners:calendar_khonsu_token",
+                  "quantity": 10
+                }
+              ],
+              "trader_exp": 1,
               "reward_exp": true
             }
           ]

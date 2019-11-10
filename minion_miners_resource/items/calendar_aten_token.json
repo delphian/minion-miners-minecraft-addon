@@ -2,11 +2,11 @@
     "format_version": "1.10",
     "minecraft:item": {
         "description": {
-            "identifier": "minion_miners:calendar_daytime_increase",
+            "identifier": "minion_miners:calendar_aten_token",
             "category": "Nature"
         },   
         "components": {
-            "minecraft:icon": "calendar_daytime_increase",
+            "minecraft:icon": "calendar_aten_token",
             "minecraft:use_animation": "eat",
             "minecraft:render_offsets": "apple"
         }

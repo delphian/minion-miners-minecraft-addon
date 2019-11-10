@@ -7,8 +7,11 @@
         "calendar_daytime_control": {
             "textures": "textures/blocks/calendar_daytime_control"
         },
-        "calendar_daytime_increase": {
-            "textures": "textures/items/calendar_daytime_increase"
+        "calendar_aten_token": {
+            "textures": "textures/items/calendar_aten_token"
+        },
+        "calendar_khonsu_token": {
+            "textures": "textures/items/calendar_khonsu_token"
         }
     }
 }

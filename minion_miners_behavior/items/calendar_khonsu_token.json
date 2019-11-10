@@ -2,7 +2,7 @@
     "format_version": "1.10",
     "minecraft:item": {
         "description": {
-            "identifier": "minion_miners:calendar_daytime_increase"
+            "identifier": "minion_miners:calendar_khonsu_token"
         },
         "components": {
             "minecraft:use_duration": 32,
