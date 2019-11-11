@@ -1,0 +1,16 @@
+{
+    "format_version": "1.10",
+    "minecraft:item": {
+        "description": {
+            "identifier": "minion_miners:calendar_aten_token_negative"
+        },
+        "components": {
+            "minecraft:use_duration": 32,
+            "minecraft:food": {
+                "nutrition": 4,
+                "saturation_modifier": "supernatural",
+                "can_always_eat": true
+            }
+        }
+    }
+}

@@ -4,7 +4,7 @@
       "total_exp_required": 0,
       "groups": [
         {
-          "num_to_select": 2,
+          "num_to_select": 3,
           "trades": [
             {
               "wants": [
@@ -16,6 +16,22 @@
               "gives": [
                 {
                   "item": "minion_miners:calendar_aten_token",
+                  "quantity": 10
+                }
+              ],
+              "trader_exp": 1,
+              "reward_exp": true
+            },
+            {
+              "wants": [
+                {
+                  "item": "minecraft:stick",
+                  "quantity": 1
+                }
+              ],
+              "gives": [
+                {
+                  "item": "minion_miners:calendar_aten_token_negative",
                   "quantity": 10
                 }
               ],

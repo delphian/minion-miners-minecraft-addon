@@ -240,6 +240,9 @@ MinionMiners.Calendar = function(minutesInDay, minutesInNight) {
         if (eventData.__type__ == "event_data" && eventData.data.item_stack.item == "minion_miners:calendar_aten_token") {
             this.incrementMinutesInDaytime();
         }
+        if (eventData.__type__ == "event_data" && eventData.data.item_stack.item == "minion_miners:calendar_aten_token_negative") {
+            this.decreaseMinutesInDaytime();
+        }
         if (eventData.__type__ == "event_data" && eventData.data.item_stack.item == "minion_miners:calendar_khonsu_token") {
             this.incrementMinutesInNighttime();
         }
@@ -273,6 +276,7 @@ MinionMiners.Calendar = function(minutesInDay, minutesInNight) {
      */
     this.setMinutesInDaytime = function(minutes) {
         time.setMinutesInDaytime(minutes);
+        mm.say("The heavens have altered their course. " + minutes + " minutes during daytime.");
     };
     /**
      * Set the number of real life minutes it takes for the minecraft moon to traverse the sky.
@@ -287,7 +291,14 @@ MinionMiners.Calendar = function(minutesInDay, minutesInNight) {
         var timeConfig = time.getConfig();
         var newDayTimeMinutes = timeConfig.rlMinutes.dayTime + 1;
         this.setMinutesInDaytime(newDayTimeMinutes);
-        mm.say("The heavens have altered their course. " + newDayTimeMinutes + " minutes during daytime.");
+    };
+    /**
+     * Decrease the number of minutes during daytime by 1.
+     */
+    this.decreaseMinutesInDaytime = function() {
+        var timeConfig = time.getConfig();
+        var newDayTimeMinutes = Math.max(timeConfig.rlMinutes.dayTime - 1, 1);
+        this.setMinutesInDaytime(newDayTimeMinutes);
     };
     /**
      * Increment the number of minutes during nighttime by 1.

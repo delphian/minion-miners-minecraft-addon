@@ -5,6 +5,9 @@
         "calendar_aten_token": {
             "textures": "textures/items/calendar_aten_token"
         },
+        "calendar_aten_token_negative": {
+            "textures": "textures/items/calendar_aten_token_negative"
+        },
         "calendar_khonsu_token": {
             "textures": "textures/items/calendar_khonsu_token"
         }

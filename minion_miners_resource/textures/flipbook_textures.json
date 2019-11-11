@@ -10,6 +10,11 @@
         "ticks_per_frame": 42
     },
     {
+        "flipbook_texture": "textures/items/calendar_aten_token_negative",
+        "atlas_tile": "calendar_aten_token_negative",
+        "ticks_per_frame": 42
+    },
+    {
         "flipbook_texture": "textures/items/calendar_khonsu_token",
         "atlas_tile": "calendar_khonsu_token",
         "ticks_per_frame": 42
