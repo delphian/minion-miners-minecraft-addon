@@ -2,16 +2,16 @@
   "format_version": "1.8.0",
   "minecraft:client_entity": {
     "description": {
-      "identifier": "minion_miners:calendar_wizard",
+      "identifier": "minion_miners:priest_of_aten",
       "min_engine_version": "1.8.0",
       "materials": {
         "default": "witch"
       },
       "textures": {
-        "default": "textures/entity/calendar_wizard"
+        "default": "textures/entity/priest_of_aten"
       },
       "geometry": {
-        "default": "geometry.minion_miners.calendar_wizard"
+        "default": "geometry.minion_miners.priest_of_aten"
       },
       "scripts": {
         "scale": "0.5"
